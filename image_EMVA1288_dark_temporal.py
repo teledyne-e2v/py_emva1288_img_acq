@@ -14,12 +14,16 @@ import time
 import api
 import os
 
-# choose resolution (select one):
+#choose resolution (select one):
 api.initialize(sensor_mode=0) #10 bits
 #api.initialize(sensor_mode=2) #8 bits
 
 #setup the exposure time needed to obtain fully saturated image
-exposure_number = 61000 #µs
+exposure_max = 61000 #µs
+
+#loop parameters
+nb_steps=50 #keep this value
+exposure_step=exposure_max/nb_steps #keep this value
 
 fd = api.get_device()
 
@@ -108,10 +112,11 @@ print("write")
 offset=subprocess.check_output('i2ctransfer -f -y 6 w1@0x10 0x22 r2', shell=True)
 print("offset_reg={}".format(offset))
 
-for i in range(1000,exposure_number,1000):
+for i in range(exposure_step, exposure_max, exposure_step):
     api.set_control_value("exposure",i)
+    print("exposure={}us".format(int(i)))
     time.sleep(0.2)
-    write_file(path, filename, "d " + str(i / 1000))
+    write_file(path, filename, "d " + str(i / 1000))  
     if (int(i / 1000) < 10):
         write_file(path, filename, "i Images\\d_00" + str(int(i / 1000)) + "_snap_000.tif")
         write_file(path, filename, "i Images\\d_00" + str(int(i / 1000)) + "_snap_001.tif")
