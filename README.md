@@ -36,7 +36,7 @@ python image_EMVA1288_light_temporal.py
 ```
 
 ## IMPORTANT NOTICE
-Check the parameters values required for each scripts before executing
+Check the parameters values required for each script before executing
 * setup the exposure time needed to obtain mid-dynamic image: **exposure_vsat_2**
 * setup the exposure time needed to obtain fully saturated image: **exposure_max**
 
